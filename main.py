@@ -17,7 +17,7 @@ estado_sistema = {
     "temp_actual": 0.0,
     "temp_promedio": 0.0,
     "humedad": 0.0,
-    "umbral_temp": 26.0,
+    "umbral_temp": 28.0,
     "modo": "AUTO",
     "angulo_ventana": 0,
     "alerta": "NORMAL"
@@ -136,4 +136,12 @@ while True:
         except:
             pass
 
-    time.sleep(2)
+    # 6. Esperar 2 s revisando MQTT cada 0.1 s, para que los comandos de la
+    #    app (mover compuerta, cambiar modo) se apliquen casi al instante.
+    for _ in range(20):
+        if mqtt_activo:
+            try:
+                cliente.check_msg()
+            except:
+                pass
+        time.sleep(0.1)

@@ -1,9 +1,10 @@
 @echo off
-REM Sube todos los .py de esta carpeta al ESP32 (COM6), reinicia y muestra la consola.
+REM Sube todos los .py de esta carpeta al ESP32 (detecta el puerto solo), reinicia y muestra la consola.
 REM Tu programa principal debe llamarse main.py (igual que en Wokwi).
 chcp 65001 >nul
 set PY=%LOCALAPPDATA%\Programs\Python\Python312\python.exe
-set PUERTO=COM6
+REM Puerto del ESP32: "auto" lo detecta solo. Si tienes varias placas, pon el COM (ej: set PUERTO=COM7).
+set PUERTO=auto
 cd /d "%~dp0"
 
 for %%f in (*.py) do (

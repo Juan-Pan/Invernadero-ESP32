@@ -1,10 +1,11 @@
 @echo off
-REM Detiene el programa del ESP32 (COM6) y apaga LEDs, buzzer, servo y Wi-Fi.
+REM Detiene el programa del ESP32 (detecta el puerto solo) y apaga LEDs, buzzer, servo y Wi-Fi.
 REM El programa vuelve a arrancar solo si desconectas/conectas la placa,
 REM presionas el boton EN, o ejecutas subir.bat.
 chcp 65001 >nul
 set PY=%LOCALAPPDATA%\Programs\Python\Python312\python.exe
-set PUERTO=COM6
+REM Puerto del ESP32: "auto" lo detecta solo. Si tienes varias placas, pon el COM (ej: set PUERTO=COM7).
+set PUERTO=auto
 
 echo Deteniendo el programa del ESP32 en %PUERTO% ...
 "%PY%" -m mpremote connect %PUERTO% exec "from machine import Pin; import network; Pin(2, Pin.OUT).value(0); Pin(4, Pin.OUT).value(0); Pin(5, Pin.OUT).value(0); Pin(18, Pin.OUT).value(0); network.WLAN(network.STA_IF).active(False); print('Programa detenido: LEDs, buzzer, servo y Wi-Fi apagados.')"

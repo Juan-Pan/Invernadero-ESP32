@@ -1,0 +1,4 @@
+flet==1.1.2
+flet-charts==1.1.2
+flet-desktop==1.1.2
+paho-mqtt>=2.0

@@ -21,7 +21,11 @@ Invernadero-ESP32/
 ├── config.py         # Credenciales Wi-Fi (SSID / PASSWORD)
 ├── subir.bat         # Sube todos los .py al ESP32, reinicia y abre consola
 ├── ver_consola.bat   # Abre consola serial del ESP32 (REPL)
-└── detener.bat       # Detiene la ejecucion en el ESP32
+├── detener.bat       # Detiene la ejecucion en el ESP32
+└── app_pc/           # App de escritorio Flet (corre en el PC, NO se sube al ESP32)
+    ├── app_invernadero.py
+    ├── abrir_app.bat
+    └── requirements.txt
 ```
 
 ## Hardware Requerido
@@ -68,6 +72,29 @@ Controles en consola:
 - Ctrl+D: reinicia el programa
 - Ctrl+C: detiene el programa (queda en >>>)
 - Ctrl+]: sale de la consola
+
+## App de Escritorio (Flet)
+
+Menu con tres secciones para supervisar y controlar el invernadero desde el PC via MQTT:
+
+- **Resumen**: temperatura actual y promedio, humedad, umbral, angulo de la compuerta y alerta, en vivo.
+- **Control**: cambia entre AUTO y MANUAL. En MANUAL mueves la compuerta a cualquier angulo
+  (slider de 0 a 180 en pasos de 5, o botones rapidos 0/45/90/135/180). Tambien ajusta el umbral de temperatura.
+- **Estadisticas**: graficas de temperatura (actual, promedio y umbral), humedad y angulo de la compuerta;
+  minimo/promedio/maximo, % de tiempo en alerta y con la compuerta abierta. Periodos de 2, 10, 30 min o todo
+  (hasta 1 hora) y boton **Exportar CSV** (se guarda en `app_pc/registros/`).
+
+### Ejecutar
+Doble clic en `app_pc/abrir_app.bat` (instala las librerias la primera vez), o:
+```bash
+cd app_pc
+pip install -r requirements.txt
+python app_invernadero.py
+```
+El ESP32 debe estar conectado a Wi-Fi y al broker para que lleguen datos. La primera vez Flet descarga
+su cliente de escritorio, por lo que tarda un poco mas en abrir.
+
+Nota: `subir.bat` solo sube los `.py` de la carpeta raiz, asi que la app del PC no se copia al ESP32.
 
 ## Comunicacion MQTT
 
